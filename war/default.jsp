@@ -3,12 +3,18 @@
 <html>
 	<head>
 		<link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
+		<script type="text/javascript">
+			function changeAction(){
+				document.wunderForm.action = "/momentum?loc=" + document.wunderForm.location.value;
+			}
+		</script>
 	</head>
 	
 	<body>
 		OMG ITS A DEFAULT JSP
-		<form action="/momentum">
-		<input type="submit" value="Servlet"/>
+		<form name="wunderForm" action="" method="GET">
+			<input name="location" type="text"/>
+			<input type="submit" value="Servlet" onClick="changeAction()"/>
 		</form>
 	</body>
 </html>
