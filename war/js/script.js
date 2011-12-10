@@ -3,8 +3,12 @@
 		
 		$('#map_container').hide();
 
+		var center;
+		getLatLng(function(position) {
+			center = position;
+		});
 		$('#map_canvas').gmap({'center': getLatLng(), 'callback': function () {
-				$('#map_canvas').gmap('addMarker', {'position': getLatLng(), 'title': 'Hello world!'});
+				$('#map_canvas').gmap('addMarker', {'position': center, 'title': 'Hello world!'});
 			}
 		});
 		
@@ -25,14 +29,14 @@
 		if ( navigator.geolocation ) {
 			 navigator.geolocation.getCurrentPosition ( 
             	function(position) {
-                	callback(new google.maps.LatLng(position.coords.latitude,position.coords.longitude));
+                	callback.call(new google.maps.LatLng(position.coords.latitude,position.coords.longitude));
  				}, 
             	function(error) {
-					callback(new google.maps.LatLng(29.464700,-98.481260));	
+					callback.call(new google.maps.LatLng(29.464700,-98.481260));	
                 }
-            )();      
+            );      
         } else {
-					callback(new google.maps.LatLng(29.464700,-98.481260));	
+					callback.call(new google.maps.LatLng(29.464700,-98.481260));	
         }
 		
 	}
