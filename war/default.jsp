@@ -7,5 +7,8 @@
 	
 	<body>
 		OMG ITS A DEFAULT JSP
+		<form action="/momentum">
+		<input type="submit" value="Servlet"/>
+		</form>
 	</body>
 </html>
