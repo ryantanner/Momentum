@@ -1,10 +1,8 @@
 
-jquery-ui-map version 2.0
+jquery-ui-map version 3.0-alpha
 
 
 Documentation: http://code.google.com/p/jquery-ui-map/wiki/Overview
-
-Examples: http://code.google.com/p/jquery-ui-map/wiki/Examples
 
 Demo: http://code.google.com/p/jquery-ui-map/
 
@@ -15,7 +13,4 @@ Discuss at: http://groups.google.com/group/jquery-ui-map-discuss
 Packed with http://dean.edwards.name/packer/
 
 
-CHANGES:
-
-2011-04-15 Renamed the method clear to clearMarkers.
 
