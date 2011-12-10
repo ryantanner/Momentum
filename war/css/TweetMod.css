@@ -1,0 +1,16 @@
+body {
+        background-color: #FFFFFF;
+        font-family: sans-serif;
+		color: #000000; 
+}
+
+#tweets {
+	font-size: 10px;
+	color: #094347;
+	border-style: dotted;
+	border-width: 2px;
+	border-color: #0276FD;
+	width: 300px;
+	height: 500px;
+	overflow: scroll;
+}
