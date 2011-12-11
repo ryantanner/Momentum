@@ -53,29 +53,35 @@ public class MomentumServlet extends HttpServlet {
             reader.close();
             
             
-            JSONObject json = new JSONObject(jsonString);
-            resp.setContentType("text/html");
-            PrintWriter out = resp.getWriter();
-            out.println(json.get("current_observation"));
-            out.close();
-            
-            
-//            String temperature = (String) json.get("temperature_string");
-//            String weather = (String) json.get("weather");
-//            Float wind_mph = (Float) json.get("wind_mph");
-//            String visibility_mi = (String) json.get("visibility_mi");
-//            String icon_url = (String) json.get("icon_url");
-//            
+            JSONObject rootJson = new JSONObject(jsonString);
+            JSONObject observationJson = rootJson.getJSONObject("current_observation");
+            JSONObject locationJson = observationJson.getJSONObject("display_location");
 //            resp.setContentType("text/html");
 //            PrintWriter out = resp.getWriter();
-//            out.println("<html><header><title>Information</title></header><body>");
-//            out.println("<img src='" + icon_url + "' alt='stuff'/>");
-//            out.println("Weather: " + weather);
-//            out.println("Temp: " + temperature);
-//            out.println("Wind Speed: " + wind_mph);
-//            out.println("Visibility(miles): " + visibility_mi);
-//            out.println("</body></html>");
+//            out.println(observationJson.get("temperature_string"));
 //            out.close();
+            
+            String location = (String) locationJson.get("full");
+            String icon_url = (String) observationJson.get("icon_url");
+            String weather = (String) observationJson.get("weather");
+            String temperature = (String) observationJson.get("temperature_string");
+            Double wind_mph = (Double) observationJson.get("wind_mph");
+            String visibility_mi = (String) observationJson.get("visibility_mi");
+
+            
+            JSONObject momentumJson = new JSONObject();
+            momentumJson.put("icon_url", icon_url);
+            momentumJson.put("location", location);
+            momentumJson.put("weather", weather);
+            momentumJson.put("temperature", temperature);
+            momentumJson.put("wind_mph", wind_mph);
+            momentumJson.put("visibility_mi", visibility_mi);
+            
+            
+            resp.setContentType("application/JSON");
+            PrintWriter out = resp.getWriter();
+            out.print(momentumJson);
+            out.close();
             
         } catch (MalformedURLException e) {
             resp.sendError(404);
