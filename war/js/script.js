@@ -51,7 +51,7 @@ function getLatLng(callback) {
 				'travelMode': google.maps.DirectionsTravelMode.DRIVING },
 				{ 'panel': document.getElementById('directionsResults') },
 					function(result, status) {
-                		// success callback
+                		$('#input_form').slideUp(1000,function () { $('#map_container').show(); });
         			}
 				);
 
@@ -69,7 +69,10 @@ function getLatLng(callback) {
 				          callback(results[1].formatted_address);
 				        }
 			      } else {
-			        	alert("Geocoder failed due to: " + status);
+			        	$('#geolocation_error').fadeIn(1000,function () {
+							setTimeout(function () { $('#geolocation_error').fadeOut(1000); }, 1500);
+						});
+						
 						callback("");
 			      }
 				});
@@ -82,7 +85,12 @@ function getLatLng(callback) {
 	$(document).ready(function($) {
 		
 		$('#geolocater').click(function() {
-			geolocate(function(pos) { $('#from').val(pos); });
+			geolocate(function(pos) { if (pos != "") $('#from').val(pos); });
+			return false;
+		});
+		
+		$('#getDirections').unbind('click').click(function () {
+			getDirections($('from').val(),$('to').val());
 			return false;
 		});
 	});

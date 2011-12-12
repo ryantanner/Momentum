@@ -18,7 +18,6 @@ import sun.net.www.http.HttpClient;
 
 @SuppressWarnings("serial")
 public class MomentumServlet extends HttpServlet {
-	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException{
 		try {
 			doGetOrPost(req, resp);
@@ -41,7 +40,6 @@ public class MomentumServlet extends HttpServlet {
 		String urlString = "http://api.wunderground.com/api/0f20fef8dd79ad3a/conditions/q/" + longlat + ".json";
 		
         try {
-        	
             URL url = new URL(urlString);
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
             String line;
@@ -56,10 +54,6 @@ public class MomentumServlet extends HttpServlet {
             JSONObject rootJson = new JSONObject(jsonString);
             JSONObject observationJson = rootJson.getJSONObject("current_observation");
             JSONObject locationJson = observationJson.getJSONObject("display_location");
-//            resp.setContentType("text/html");
-//            PrintWriter out = resp.getWriter();
-//            out.println(observationJson.get("temperature_string"));
-//            out.close();
             
             String location = (String) locationJson.get("full");
             String icon_url = (String) observationJson.get("icon_url");
@@ -77,14 +71,14 @@ public class MomentumServlet extends HttpServlet {
             momentumJson.put("wind_mph", wind_mph);
             momentumJson.put("visibility_mi", visibility_mi);
             
-            
             resp.setContentType("application/JSON");
             PrintWriter out = resp.getWriter();
             out.print(momentumJson);
             out.close();
             
         } catch (MalformedURLException e) {
-            resp.sendError(404);
+        	//TO-DO: Add intelligible error messaging for these catches.
+        	resp.sendError(404);
         } catch (IOException e) {
             resp.sendError(400);
         }
