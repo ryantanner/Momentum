@@ -69,7 +69,10 @@ function getLatLng(callback) {
 				          callback(results[1].formatted_address);
 				        }
 			      } else {
-			        	alert("Geocoder failed due to: " + status);
+			        	$('#geolocation_error').fadeIn(1000,function () {
+							setTimeout(function () { $('#geolocation_error').fadeOut(1000); }, 1500);
+						});
+						
 						callback("");
 			      }
 				});
