@@ -4,14 +4,13 @@ body {
 		color: #000000; 
 }
 
-#tweets {
+#tweetsbox {
 	font-size: 10px;
 	color: #0000FF;
 	border-style: dotted;
 	border-width: 2px;
 	border-color: #0276FD;
 	width: 300px;
-	height: 350px;
-	overflow: scroll;
+	height: 400px;
 	background-color: #E6E8FA;
 }
