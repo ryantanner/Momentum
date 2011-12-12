@@ -51,7 +51,7 @@ function getLatLng(callback) {
 				'travelMode': google.maps.DirectionsTravelMode.DRIVING },
 				{ 'panel': document.getElementById('directionsResults') },
 					function(result, status) {
-                		// success callback
+                		$('#input_form').slideUp(1000,function () { $('#map_container').show(); });
         			}
 				);
 
@@ -86,6 +86,11 @@ function getLatLng(callback) {
 		
 		$('#geolocater').click(function() {
 			geolocate(function(pos) { if (pos != "") $('#from').val(pos); });
+			return false;
+		});
+		
+		$('#getDirections').unbind('click').click(function () {
+			getDirections($('from').val(),$('to').val());
 			return false;
 		});
 	});
