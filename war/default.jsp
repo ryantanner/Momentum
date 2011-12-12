@@ -2,7 +2,6 @@
 
 <html>
 	<head>
-		<link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
 		<script type="text/javascript">
 			function changeAction(){
 				document.wunderForm.action = "/momentum?loc=" + document.wunderForm.location.value;
