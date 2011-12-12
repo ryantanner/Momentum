@@ -1,0 +1,13 @@
+/************************************\
+/*****         Momentum         *****\
+/*****   Travel route weather   *****\
+/*****   services.              *****\
+/*****                          *****\
+/*****                          *****\
+/************************************\
+
+--Functionality
+----Provide directions via Google Maps, user input destination and deparature
+----Choose eight equidistant points along the route and place these points as
+		markers on the google map. In turn, these points when scrolled over will
+		generate a pop-up that contains current weather conditions at that area.
