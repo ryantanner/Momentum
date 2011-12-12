@@ -85,7 +85,7 @@ function getLatLng(callback) {
 	$(document).ready(function($) {
 		
 		$('#geolocater').click(function() {
-			geolocate(function(pos) { $('#from').val(pos); });
+			geolocate(function(pos) { if (pos != "") $('#from').val(pos); });
 			return false;
 		});
 	});

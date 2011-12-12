@@ -54,21 +54,24 @@
 				<fieldset>
 					<legend>Where would you like to go?</legend>
 					
-					<p>
+					<p class="span-10">
 						<label for="from">I'm going from</label><br />
 						<input type="text" class="title" name="from" id="from" value="San Antonio, TX" />
+
 						<span class="globe-button gradient">
 							<input 	type="image" 
 									src="img/earth_globe_americas.png" 
 									title="Find My Location!"
 									id="geolocater" />
 						</span>
-					</p>
-					
-					<p>
+						<br />
 						<label for="to">to</label><br />
 						<input type="text" class="title" name="to", id="to" value="" />
 					</p>
+					
+					<div id="geolocation_error" class="error span-12 last">
+						<strong>Sorry,</strong> unable to get your location.
+					</div>
 			</form>
 		</div>
 	
