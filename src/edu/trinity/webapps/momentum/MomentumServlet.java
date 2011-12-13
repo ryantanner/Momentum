@@ -68,6 +68,8 @@ public class MomentumServlet extends HttpServlet {
 	            JSONObject observationJson = rootJson.getJSONObject("current_observation");
 	            JSONObject locationJson = observationJson.getJSONObject("display_location");
 	            
+	            String latitude = (String) locationJson.get("latitude");
+	            String longitude = (String) locationJson.get("longitude");
 	            String location = (String) locationJson.get("full");
 	            String icon_url = (String) observationJson.get("icon_url");
 	            String weather = (String) observationJson.get("weather");
@@ -83,6 +85,8 @@ public class MomentumServlet extends HttpServlet {
 	            singleJson.put("temperature", temperature);
 	            singleJson.put("wind_mph", wind_mph);
 	            singleJson.put("visibility_mi", visibility_mi);
+	            singleJson.put("latitude", latitude);
+	            singleJson.put("longitude", longitude);
 	            
 	            longLatJsonArray.put(singleJson);
 
