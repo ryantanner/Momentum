@@ -7,7 +7,9 @@ import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.http.*;
@@ -37,23 +39,14 @@ public class MomentumServlet extends HttpServlet {
 		}
 	}
 	
-	public void doGetOrPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, JSONException {
+	public void doGetOrPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, JSONException {	
+		Enumeration paramNames = req.getParameterNames();
+		List <String> longLatList = new ArrayList<String>();
+		while(paramNames.hasMoreElements()){
+			String paramName = (String) paramNames.nextElement();
+			longLatList.add(req.getParameter(paramName));
+		}
 		
-		//?location=[(xx.xxx, xx.xxx), (yy.yyy, yy.yyy)]
-		//?loc1=xx.xxx,xx.xxx
-		
-		String longlat1 = req.getParameter("loc1");
-		String longlat2 = req.getParameter("loc2");
-		String longlat3 = req.getParameter("loc3");
-		String longlat4 = req.getParameter("loc4");
-		String longlat5 = req.getParameter("loc5");
-		String longlat6 = req.getParameter("loc6");
-		String longlat7 = req.getParameter("loc7");
-		String longlat8 = req.getParameter("loc8");
-		
-		List<String> longLatList = Arrays.asList(longlat1, longlat2, longlat3, longlat4, longlat5, longlat6, longlat7, longlat8);
-		
-//		{"markers":[{"lat":57.7973333,"lng":12.0502107,"title":"Angered"},{"lat":57.6969943,"lng":11.9865,"title":"Gothenburg"}]}
 		JSONObject rootMarkersJson = new JSONObject();
 		
 		JSONArray longLatJsonArray = new JSONArray();
