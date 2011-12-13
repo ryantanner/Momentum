@@ -21,37 +21,42 @@ function getLatLng(callback) {
 
     $(document).ready(function() {
 		
-		$('#map_container').hide();
+		//$('#map_container').hide();
 
-		getLatLng(function(position) {
-			var center = position;
-			$('#map_canvas').gmap({'center': getLatLng(), 'callback': function () {
-					$('#map_canvas').gmap('addMarker', {'position': center, 'title': 'Hello world!'});
-				}
-			});
 
-			$('#ex1-terrain').toggle(function () {             
-				$('#map_canvas').gmap('option', 'mapTypeId', google.maps.MapTypeId.TERRAIN);
-			}, 
-			function () { 
-				$('#map_canvas').gmap('option', 'mapTypeId', google.maps.MapTypeId.ROADMAP); 
-			} 
-			);
-		});
 
     });
+
+	getLatLng(function(position) {
+		var center = position;
+		$('#map_canvas').gmap({'center': getLatLng(), 'callback': function () {
+				$('#map_canvas').gmap('addMarker', {'position': center, 'title': 'Hello world!'});
+			}
+		});
+
+		$('#ex1-terrain').toggle(function () {             
+			$('#map_canvas').gmap('option', 'mapTypeId', google.maps.MapTypeId.TERRAIN);
+		}, 
+		function () { 
+			$('#map_canvas').gmap('option', 'mapTypeId', google.maps.MapTypeId.ROADMAP); 
+		} 
+		);
+	});
 
 
 	function getDirections(start,end)	{
 		// builds DirectionRequest object for google maps api
 
         $('#map_canvas').gmap('displayDirections', 
-				{'origin': start, 
-				'destination': end,
+				{'origin': '"' + start + '"',
+				'destination': '"' + end + '"',
 				'travelMode': google.maps.DirectionsTravelMode.DRIVING },
 				{ 'panel': document.getElementById('directionsResults') },
 					function(result, status) {
-                		$('#input_form').slideUp(1000,function () { $('#map_container').show(); });
+						$('#input_form').slideUp(1000,function () { 
+							$('#map_container').removeClass('hidden-map'); 
+							$('#directionsResults').removeClass('hidden');
+						});
         			}
 				);
 
@@ -90,7 +95,23 @@ function getLatLng(callback) {
 		});
 		
 		$('#getDirections').unbind('click').click(function () {
-			getDirections($('from').val(),$('to').val());
+			
+			if ($('#from').val() === "")	{
+	        	$('#from_error').fadeIn(1000,function () {
+					setTimeout(function () { $('#from_error').fadeOut(1000); }, 1500);
+				});				
+				return false;
+			}
+			else if ($('#to').val() === "")	{
+	        	$('#to_error').fadeIn(1000,function () {
+					setTimeout(function () { $('#to_error').fadeOut(1000); }, 1500);
+				});				
+				return false;
+			}
+			else	{
+				getDirections($('#from').val(),$('#to').val());				
+			}
+			
 			return false;
 		});
 	});

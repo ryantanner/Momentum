@@ -18,3 +18,6 @@ window.log = function(){
 
 // place any jQuery/helper plugins in here, instead of separate, slower script files.
 
+//$.ajaxSetup({async: false});
+//$.getScript('http://maps.googleapis.com/maps/api/js?sensor=false');
+//$.ajaxSetup({async: true});
