@@ -90,11 +90,41 @@
         </div>
         
         <div id ="Twit" class="push-3">
-
+			<script src="http://widgets.twimg.com/j/2/widget.js"></script>
+		<script>
+			new TWTR.Widget({
+  			version: 2,
+  			type: 'search',
+  			search: 'weather San Antonio',
+  			interval: 30000,
+  			title: 'Tweets For Weather',
+  			subject: 'Weather in Your Area',
+  			width: 250,
+  			height: 300,
+  			theme: {
+    		shell: {
+      			background: '#8ec1da',
+      			color: '#ffffff'
+    		},
+    		tweets: {
+      			background: '#ffffff',
+      			color: '#444444',
+      			links: '#1985b5'
+    		}
+  		},
+  features: {
+    scrollbar: false,
+    loop: true,
+    live: true,
+    behavior: 'default'
+  }
+}).render().start();
+</script>
         </div>
 		
 		<div id="social" class="push-15">
-		<div class="g-plusone"></div>
+		<a href="https://twitter.com/share" class="twitter-share-button" data-lang="en" data-hashtags="MomentumWeather">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 		<div class="fb-like" data-href="http://trinitymomentum.appspot.com/" data-send="false" data-layout="box_count" data-width="450" data-show-faces="false"></div>
 		</div>
 		
@@ -116,6 +146,7 @@
   <!-- scripts concatenated and minified via ant build script-->
   <script src="js/plugins.js"></script>
   <script src="js/script.js"></script>
+    <script src="js/Tweet.js"></script>
   <!-- end scripts-->
 
 	
