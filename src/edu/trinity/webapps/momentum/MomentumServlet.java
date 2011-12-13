@@ -39,74 +39,86 @@ public class MomentumServlet extends HttpServlet {
 		}
 	}
 	
-	public void doGetOrPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, JSONException {	
+	public void doGetOrPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, JSONException {
+		
+		boolean test = false;
 		Enumeration paramNames = req.getParameterNames();
 		List <String> longLatList = new ArrayList<String>();
 		while(paramNames.hasMoreElements()){
 			String paramName = (String) paramNames.nextElement();
+			if(paramName.compareTo("test") == 0){
+				test = true;
+			}
 			longLatList.add(req.getParameter(paramName));
 		}
 		
-		JSONObject rootMarkersJson = new JSONObject();
+		if(!test){
+			JSONObject rootMarkersJson = new JSONObject();
+			JSONArray longLatJsonArray = new JSONArray();
+			
+			for(int i = 0; i < longLatList.size(); i++){
+			String urlString = "http://api.wunderground.com/api/0f20fef8dd79ad3a/conditions/q/" + longLatList.get(i) + ".json";
+		        try {
+		            URL url = new URL(urlString);
+		            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+		            String line;
+		            String jsonString = "";
+		            
+		            while ((line = reader.readLine()) != null) {
+		        		jsonString = jsonString + line;
+		            }
+		            reader.close();
+		            
+		            JSONObject rootJson = new JSONObject(jsonString);
+		            JSONObject observationJson = rootJson.getJSONObject("current_observation");
+		            JSONObject locationJson = observationJson.getJSONObject("display_location");
+		            
+		            String latitude = (String) locationJson.get("latitude");
+		            String longitude = (String) locationJson.get("longitude");
+		            String location = (String) locationJson.get("full");
+		            String icon_url = (String) observationJson.get("icon_url");
+		            String weather = (String) observationJson.get("weather");
+		            String temperature = (String) observationJson.get("temperature_string");
+		            Double wind_mph = (Double) observationJson.get("wind_mph");
+		            String visibility_mi = (String) observationJson.get("visibility_mi");
 		
-		JSONArray longLatJsonArray = new JSONArray();
-		
-		for(int i = 0; i < longLatList.size(); i++){
-		String urlString = "http://api.wunderground.com/api/0f20fef8dd79ad3a/conditions/q/" + longLatList.get(i) + ".json";
-	        try {
-	            URL url = new URL(urlString);
-	            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-	            String line;
-	            String jsonString = "";
-	            
-	            while ((line = reader.readLine()) != null) {
-	        		jsonString = jsonString + line;
-	            }
-	            reader.close();
-	            
-	            JSONObject rootJson = new JSONObject(jsonString);
-	            JSONObject observationJson = rootJson.getJSONObject("current_observation");
-	            JSONObject locationJson = observationJson.getJSONObject("display_location");
-	            
-	            String latitude = (String) locationJson.get("latitude");
-	            String longitude = (String) locationJson.get("longitude");
-	            String location = (String) locationJson.get("full");
-	            String icon_url = (String) observationJson.get("icon_url");
-	            String weather = (String) observationJson.get("weather");
-	            String temperature = (String) observationJson.get("temperature_string");
-	            Double wind_mph = (Double) observationJson.get("wind_mph");
-	            String visibility_mi = (String) observationJson.get("visibility_mi");
+		            JSONObject singleJson = new JSONObject();
+		            singleJson.put("icon_url", icon_url);
+		            singleJson.put("location", location);
+		            singleJson.put("weather", weather);
+		            singleJson.put("temperature", temperature);
+		            singleJson.put("wind_mph", wind_mph);
+		            singleJson.put("visibility_mi", visibility_mi);
+		            singleJson.put("latitude", latitude);
+		            singleJson.put("longitude", longitude);
+		            
+		            longLatJsonArray.put(singleJson);
 	
-	            
-	            JSONObject singleJson = new JSONObject();
-	            singleJson.put("icon_url", icon_url);
-	            singleJson.put("location", location);
-	            singleJson.put("weather", weather);
-	            singleJson.put("temperature", temperature);
-	            singleJson.put("wind_mph", wind_mph);
-	            singleJson.put("visibility_mi", visibility_mi);
-	            singleJson.put("latitude", latitude);
-	            singleJson.put("longitude", longitude);
-	            
-	            longLatJsonArray.put(singleJson);
-
-	            
-	        } catch (MalformedURLException e) {
-	        	//TO-DO: Add intelligible error messaging for these catches.
-	        	resp.sendError(404);
-	        } catch (IOException e) {
-	            resp.sendError(400);
-	        }
-		
+		            
+		        } catch (MalformedURLException e) {
+		        	//TO-DO: Add intelligible error messaging for these catches.
+		        	resp.sendError(404);
+		        } catch (IOException e) {
+		            resp.sendError(400);
+		        }
+			
+			}
+			
+			rootMarkersJson.put("markers", longLatJsonArray);
+			
+	        resp.setContentType("application/JSON");
+	        PrintWriter out = resp.getWriter();
+	        out.print(rootMarkersJson);
+	        out.close();
 		}
-		
-		rootMarkersJson.put("markers", longLatJsonArray);
-		
-        resp.setContentType("application/JSON");
-        PrintWriter out = resp.getWriter();
-        out.print(rootMarkersJson);
-        out.close();
-		
+		else{
+			String testJsonString = "{\"markers\":[{\"visibility_mi\":\"7.0\",\"location\":\"Katy, TX\",\"wind_mph\":0,\"icon_url\":\"http://icons-ak.wxug.com/i/c/k/nt_cloudy.gif\",\"weather\":\"Overcast\",\"longitude\":\"-95.851220\",\"latitude\":\"29.777110\",\"temperature\":\"56.7 F (13.7 C)\"},{\"visibility_mi\":\"10.0\",\"location\":\"Glidden, TX\",\"wind_mph\":2.7,\"icon_url\":\"http://icons-ak.wxug.com/i/c/k/nt_cloudy.gif\",\"weather\":\"Overcast\",\"longitude\":\"-96.517830\",\"latitude\":\"29.702690\",\"temperature\":\"57.4 F (14.1 C)\"},{\"visibility_mi\":\"10.0\",\"location\":\"Flatonia, TX\",\"wind_mph\":3,\"icon_url\":\"http://icons-ak.wxug.com/i/c/k/nt_cloudy.gif\",\"weather\":\"Overcast\",\"longitude\":\"-97.120750\",\"latitude\":\"29.696280\",\"temperature\":\"59.0 F (15.0 C)\"},{\"visibility_mi\":\"10.0\",\"location\":\"McQueeney, TX\",\"wind_mph\":11.5,\"icon_url\":\"http://icons-ak.wxug.com/i/c/k/nt_cloudy.gif\",\"weather\":\"Overcast\",\"longitude\":\"-98.022160\",\"latitude\":\"29.567290\",\"temperature\":\"62.9 F (17.2 C)\"},{\"visibility_mi\":\"9.0\",\"location\":\"San Antonio, TX\",\"wind_mph\":5,\"icon_url\":\"http://icons-ak.wxug.com/i/c/k/nt_rain.gif\",\"weather\":\"light rain\",\"longitude\":\"-98.493630\",\"latitude\":\"29.424130\",\"temperature\":\"62.6 F (17.0 C)\"}]}";
+			JSONObject testObject = new JSONObject(testJsonString);
+			resp.setContentType("application/JSON");
+	        PrintWriter out = resp.getWriter();
+	        out.print(testObject);
+	        out.close();
+		}
 	}
 	
 	
