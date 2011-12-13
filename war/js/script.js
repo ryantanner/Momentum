@@ -53,6 +53,13 @@ function getLatLng(callback) {
 				'travelMode': google.maps.DirectionsTravelMode.DRIVING },
 				{ 'panel': document.getElementById('directionsResults') },
 					function(result, status) {
+						// get latlng points from result
+						var divisor = Math.floor(result.routes[0].overview_path.length/5);
+						var points = Array();
+						for (var i = 0; i < 5; i++)	{
+							points.push(result.routes[0].overview_path[divisor*i]);
+						}
+						getWeatherForPoints(points);
 						$('#input_form').slideUp(1000,function () { 
 							$('#map_container').removeClass('hidden-map'); 
 							$('#directionsResults').removeClass('hidden');
@@ -60,6 +67,30 @@ function getLatLng(callback) {
         			}
 				);
 
+	}
+	
+	function getWeatherForPoints(points)	{
+		// points is an array of latlng objects
+		var pointsQSt = "";
+		for (var i = 0; i < 5; i++)	{
+			pointsQSt += "location" + i + "=" + points[i].lat() + "," + points[i].lng() + "&";
+		}
+		//$.getJSON('http://trinitymomentum.appspot.com/momentum?' + pointsQSt, function (data) {
+		$.getJSON('http://trinitymomentum.appspot.com/momentum?test=adsfsd', function (data) {
+			$.each(data.markers, function (i,m) {
+				// make marker
+				var markerOpts = {'position' : new google.maps.LatLng(m.latitude,m.longitude),
+								  'icon' : m.icon_url,
+								  'bounds' : false};
+				var infoWindowOpts = {'content' : 	'<h1>' + m.location + '</h1>' + 
+													'Conditions: <strong>' + m.weather + '</strong><br />' + 
+													'Wind: <strong>' + m.wind_mph + ' mph</strong><br />' +
+													'Temp: <strong>' + m.temperature + '</strong><br />'};
+				$('#map_canvas').gmap('addMarker', markerOpts).click(function () {
+					$('#map_canvas').gmap('openInfoWindow', infoWindowOpts, this);							
+				});
+			}); 
+		});
 	}
 	
 	function geolocate(callback)	{
