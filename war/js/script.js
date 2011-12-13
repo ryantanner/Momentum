@@ -59,10 +59,12 @@ function getLatLng(callback) {
 						for (var i = 0; i < 5; i++)	{
 							points.push(result.routes[0].overview_path[divisor*i]);
 						}
+						points.push(result.routes[0].overview_path[result.routes[0].overview_path.length]);
 						getWeatherForPoints(points);
 						$('#input_form').slideUp(1000,function () { 
-							$('#map_container').removeClass('hidden-map'); 
+							$('#map_container').removeClass('hidden-map',1000).css('display','block');
 							$('#directionsResults').removeClass('hidden');
+							$('#resetButton').show();
 						});
         			}
 				);
@@ -146,3 +148,4 @@ function getLatLng(callback) {
 			return false;
 		});
 	});
+

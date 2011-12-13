@@ -73,3 +73,9 @@ a.buttonize:active	{ top: 1px; }
 	overflow: hidden;
 	padding: 0;
 }
+
+#resetButton	{
+	margin-right: -60px;
+	float: right;
+	display: none;
+}
