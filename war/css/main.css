@@ -79,3 +79,7 @@ a.buttonize:active	{ top: 1px; }
 	float: right;
 	display: none;
 }
+
+#directionsResults	{
+	float: right;
+}

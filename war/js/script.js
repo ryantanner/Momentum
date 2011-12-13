@@ -75,10 +75,11 @@ function getLatLng(callback) {
 		// points is an array of latlng objects
 		var pointsQSt = "";
 		for (var i = 0; i < 5; i++)	{
-			pointsQSt += "location" + i + "=" + points[i].lat() + "," + points[i].lng() + "&";
+			pointsQSt += "location" + i + "=" + points[i].lat().toPrecision(4) + "," + 
+												points[i].lng().toPrecision(4) + "&";
 		}
-		//$.getJSON('http://trinitymomentum.appspot.com/momentum?' + pointsQSt, function (data) {
-		$.getJSON('http://trinitymomentum.appspot.com/momentum?test=adsfsd', function (data) {
+		$.getJSON('http://trinitymomentum.appspot.com/momentum?' + pointsQSt, function (data) {
+		//$.getJSON('http://trinitymomentum.appspot.com/momentum?test=adsfsd', function (data) {
 			$.each(data.markers, function (i,m) {
 				// make marker
 				var markerOpts = {'position' : new google.maps.LatLng(m.latitude,m.longitude),
@@ -142,10 +143,13 @@ function getLatLng(callback) {
 				return false;
 			}
 			else	{
-				getDirections($('#from').val(),$('#to').val());				
+				getDirections($('#from').val(),$('#to').val());	
+				renderTwitterWidget($('#from').val());			
 			}
 			
 			return false;
 		});
 	});
+	
+
 
