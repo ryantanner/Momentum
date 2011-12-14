@@ -61,7 +61,7 @@ function getLatLng(callback) {
 						}
 						points.push(result.routes[0].overview_path[result.routes[0].overview_path.length]);
 						getWeatherForPoints(points);
-						$('#input_form').slideUp(1000,function () { 
+						$('#input_form').fadeOut(1000,function () { 
 							$('#map_container').removeClass('hidden-map',1000).css('display','block');
 							$('#directionsResults').removeClass('hidden');
 							$('#Twit').removeClass('push-17').css('margin-top','10px');
