@@ -1,5 +1,9 @@
 html { margin:0; padding: 0; background:#fff; background: -webkit-gradient(linear, left top, left bottom, from(#f5f5f5), to(#fff)); background: -moz-linear-gradient(top, #f5f5f5, #fff); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#f5f5f5, endColorstr=#ffffff); -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#f5f5f5, endColorstr=#ffffff)";}
-body { font-family: Verdana, sans-serif; color: #2a3333; }
+body { 
+	font-family: Verdana, sans-serif;
+	color: #2a3333;
+	background: url('../img/175.jpg');
+}
 a, a:active, a:hover, a:focus { color: #008595; text-decoration: none; outline: none; }
 .hidden-error { display:none; }
 #events { margin: 0 0 1em; }
@@ -81,5 +85,39 @@ a.buttonize:active	{ top: 1px; }
 }
 
 #directionsResults	{
-	float: right;
+}
+
+#container	{
+	padding: 20px;
+	background-color: white;
+	-moz-box-shadow: 0 0 5px 5px #eee;
+	-webkit-box-shadow: 0 0 5px 5px #eee;
+	box-shadow: 0 0 5px 5px #eee;
+}
+
+#input_form	{
+	height: 265px;
+}
+
+#input_form form, #input_form form fieldset	{
+	height: 100%;
+}
+
+#Twit	{
+	margin-top: 20px;
+}
+
+#map_loadingmask	{
+	width: 950px;
+	height: 274px;
+	margin-top: -413px;
+	background: rgba(150, 150, 150, 0.5);
+	display: none;
+	z-index: 100;
+	margin-left: -12px;
+	text-align: center;
+	padding-top: 150px;
+	position: absolute;
+	font-size: 3em;
+	color: #000;
 }

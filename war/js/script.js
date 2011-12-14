@@ -54,9 +54,9 @@ function getLatLng(callback) {
 				{ 'panel': document.getElementById('directionsResults') },
 					function(result, status) {
 						// get latlng points from result
-						var divisor = Math.floor(result.routes[0].overview_path.length/5);
+						var divisor = Math.floor(result.routes[0].overview_path.length/8);
 						var points = Array();
-						for (var i = 0; i < 5; i++)	{
+						for (var i = 0; i < 8; i++)	{
 							points.push(result.routes[0].overview_path[divisor*i]);
 						}
 						points.push(result.routes[0].overview_path[result.routes[0].overview_path.length]);
@@ -64,6 +64,7 @@ function getLatLng(callback) {
 						$('#input_form').slideUp(1000,function () { 
 							$('#map_container').removeClass('hidden-map',1000).css('display','block');
 							$('#directionsResults').removeClass('hidden');
+							$('#Twit').removeClass('push-17').css('margin-top','10px');
 							$('#resetButton').show();
 						});
         			}
@@ -74,10 +75,12 @@ function getLatLng(callback) {
 	function getWeatherForPoints(points)	{
 		// points is an array of latlng objects
 		var pointsQSt = "";
-		for (var i = 0; i < 5; i++)	{
-			pointsQSt += "location" + i + "=" + points[i].lat().toPrecision(4) + "," + 
-												points[i].lng().toPrecision(4) + "&";
+		for (var i = 0; i < 8; i++)	{
+			pointsQSt += "location" + i + "=" + points[i].lat().toPrecision(6) + "," + 
+												points[i].lng().toPrecision(6) + "&";
 		}
+		$('#map_loadingmask').show();
+		$('#map_container').css('opacity','0.5');
 		$.getJSON('http://trinitymomentum.appspot.com/momentum?' + pointsQSt, function (data) {
 		//$.getJSON('http://trinitymomentum.appspot.com/momentum?test=adsfsd', function (data) {
 			$.each(data.markers, function (i,m) {
@@ -86,13 +89,17 @@ function getLatLng(callback) {
 								  'icon' : m.icon_url,
 								  'bounds' : false};
 				var infoWindowOpts = {'content' : 	'<h1>' + m.location + '</h1>' + 
-													'Conditions: <strong>' + m.weather + '</strong><br />' + 
-													'Wind: <strong>' + m.wind_mph + ' mph</strong><br />' +
-													'Temp: <strong>' + m.temperature + '</strong><br />'};
+					'Conditions: <strong>' + m.weather + '</strong><br />' + 
+					'Wind: <strong>' + m.wind_mph + ' mph</strong><br />' +
+					'Temp: <strong>' + m.temperature + '</strong><br />' +
+					'<a href="http://www.wunderground.com/cgi-bin/findweather/hdfForecast?query='
+					+ m.location + '" target="_blank">View More Information</a>'};
 				$('#map_canvas').gmap('addMarker', markerOpts).click(function () {
 					$('#map_canvas').gmap('openInfoWindow', infoWindowOpts, this);							
 				});
-			}); 
+			});
+			$('#map_loadingmask').fadeOut('slow');
+			$('#map_container').animate({ opacity: 1.0 });
 		});
 	}
 	
