@@ -73,27 +73,17 @@ public class MomentumServlet extends HttpServlet {
 		            JSONObject observationJson = rootJson.getJSONObject("current_observation");
 		            JSONObject locationJson = observationJson.getJSONObject("display_location");
 		            
-		            String latitude = (String) locationJson.get("latitude");
-		            String longitude = (String) locationJson.get("longitude");
-		            String location = (String) locationJson.get("full");
-		            String icon_url = (String) observationJson.get("icon_url");
-		            String weather = (String) observationJson.get("weather");
-		            String temperature = (String) observationJson.get("temperature_string");
-		            Double wind_mph = (Double) observationJson.get("wind_mph");
-		            String visibility_mi = (String) observationJson.get("visibility_mi");
-		
 		            JSONObject singleJson = new JSONObject();
-		            singleJson.put("icon_url", icon_url);
-		            singleJson.put("location", location);
-		            singleJson.put("weather", weather);
-		            singleJson.put("temperature", temperature);
-		            singleJson.put("wind_mph", wind_mph);
-		            singleJson.put("visibility_mi", visibility_mi);
-		            singleJson.put("latitude", latitude);
-		            singleJson.put("longitude", longitude);
+		            singleJson.put("icon_url", observationJson.get("icon_url"));
+		            singleJson.put("location", locationJson.get("full"));
+		            singleJson.put("weather", observationJson.get("weather"));
+		            singleJson.put("temperature", observationJson.get("temperature_string"));
+		            singleJson.put("wind_mph", observationJson.get("wind_mph"));
+		            singleJson.put("visibility_mi", observationJson.get("visibility_mi"));
+		            singleJson.put("latitude", locationJson.get("latitude"));
+		            singleJson.put("longitude", locationJson.get("longitude"));
 		            
 		            longLatJsonArray.put(singleJson);
-	
 		            
 		        } catch (MalformedURLException e) {
 		        	//TO-DO: Add intelligible error messaging for these catches.
@@ -112,6 +102,8 @@ public class MomentumServlet extends HttpServlet {
 	        out.close();
 		}
 		else{
+			//This test block exists in order to limit the amount of API hits so we don't use up our key
+			
 			String testJsonString = "{\"markers\":[{\"visibility_mi\":\"7.0\",\"location\":\"Katy, TX\",\"wind_mph\":0,\"icon_url\":\"http://icons-ak.wxug.com/i/c/k/nt_cloudy.gif\",\"weather\":\"Overcast\",\"longitude\":\"-95.851220\",\"latitude\":\"29.777110\",\"temperature\":\"56.7 F (13.7 C)\"},{\"visibility_mi\":\"10.0\",\"location\":\"Glidden, TX\",\"wind_mph\":2.7,\"icon_url\":\"http://icons-ak.wxug.com/i/c/k/nt_cloudy.gif\",\"weather\":\"Overcast\",\"longitude\":\"-96.517830\",\"latitude\":\"29.702690\",\"temperature\":\"57.4 F (14.1 C)\"},{\"visibility_mi\":\"10.0\",\"location\":\"Flatonia, TX\",\"wind_mph\":3,\"icon_url\":\"http://icons-ak.wxug.com/i/c/k/nt_cloudy.gif\",\"weather\":\"Overcast\",\"longitude\":\"-97.120750\",\"latitude\":\"29.696280\",\"temperature\":\"59.0 F (15.0 C)\"},{\"visibility_mi\":\"10.0\",\"location\":\"McQueeney, TX\",\"wind_mph\":11.5,\"icon_url\":\"http://icons-ak.wxug.com/i/c/k/nt_cloudy.gif\",\"weather\":\"Overcast\",\"longitude\":\"-98.022160\",\"latitude\":\"29.567290\",\"temperature\":\"62.9 F (17.2 C)\"},{\"visibility_mi\":\"9.0\",\"location\":\"San Antonio, TX\",\"wind_mph\":5,\"icon_url\":\"http://icons-ak.wxug.com/i/c/k/nt_rain.gif\",\"weather\":\"light rain\",\"longitude\":\"-98.493630\",\"latitude\":\"29.424130\",\"temperature\":\"62.6 F (17.0 C)\"}]}";
 			JSONObject testObject = new JSONObject(testJsonString);
 			resp.setContentType("application/JSON");
