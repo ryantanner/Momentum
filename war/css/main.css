@@ -121,3 +121,9 @@ a.buttonize:active	{ top: 1px; }
 	font-size: 3em;
 	color: #000;
 }
+
+#reset	{
+	display: none;
+	vertical-align: bottom;
+	margin-top: 70px;
+}

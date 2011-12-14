@@ -65,6 +65,7 @@ function getLatLng(callback) {
 							$('#map_container').removeClass('hidden-map',1000).css('display','block');
 							$('#directionsResults').removeClass('hidden');
 							$('#Twit').removeClass('push-17').css('margin-top','10px');
+							$('#reset').show();
 							$('#resetButton').show();
 						});
         			}
@@ -156,6 +157,8 @@ function getLatLng(callback) {
 			
 			return false;
 		});
+		
+		$('#reset').click(function () { window.location.reload(); });
 	});
 	
 
